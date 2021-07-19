@@ -30,8 +30,6 @@ def solve(api_key: str):
             sleep(5)
             token = post('https://2captcha.com/res.php', body, timeout=5).text
 
-        result = token.split('|')[1]
-
-        return token if result is None else result
+        return token if (r := token.split('|')[1]) is None else r
     else:
         raise ValueError(f'Balance ran out!')
