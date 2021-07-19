@@ -26,7 +26,7 @@ class Creator:
             'password': (password := data(16)),
             'confirm_password': password,
             'date_of_birth': '2000-01-01',
-            'email': (email := f'{username}@direct.com'),
+            'email': (email := f'{username}@randwoboo.com'),
             'tou_agree': True,
             'newsletter': False,
             'region': 'TR1',
