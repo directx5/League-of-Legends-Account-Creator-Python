@@ -1,6 +1,7 @@
 from json import dumps
 from string import ascii_letters, digits
 from random import choices
+from threading import Thread
 
 from captcha import TwoCaptcha
 
@@ -8,7 +9,7 @@ from requests import post
 
 
 class Creator:
-    def __init__(self, api_key):
+    def __init__(self, api_key: str):
         self.api_key = api_key
         self.api_url = 'https://signup-api.leagueoflegends.com/v1/accounts'
         self.captcha = TwoCaptcha(self.api_key)
@@ -31,14 +32,19 @@ class Creator:
             'region': 'TR1',
             'campaign': 'league_of_legends',
             'locale': 'tr',
-            'token': f'hcaptcha {self.captcha.solve()}',
+            'token': f'hcaptcha {(self.captcha.solve()[0])}',
         }
-        response = post(url=self.api_url, data=dumps(request_body), headers={'Content-Type': 'application/json'},
-                        timeout=10)
+        post(self.api_url, dumps(request_body))
 
-        return response.json(), dumps({'username': username, 'password': password, 'email': email})
+        return dumps({'username': username, 'password': password, 'email': email})
 
 
 if __name__ == '__main__':
     creator = Creator('API_KEY')
-    print(creator.create())
+    threads = [Thread(target=creator.create, daemon=True) for _ in range(10)]
+
+    for th in threads:
+        th.start()
+
+    for th in threads:
+        th.join()
