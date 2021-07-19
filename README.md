@@ -1,5 +1,5 @@
 # League of Legends Account Creator Python
 
-<h2 style='font-color: red'>Cons</h2>
+## Cons
 - Only 2Captcha supported.
 - Only TR server supported.
