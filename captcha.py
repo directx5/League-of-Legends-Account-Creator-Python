@@ -32,7 +32,7 @@ class TwoCaptcha:
             token = post('https://2captcha.com/res.php', data=payload).text
 
             while token == 'CAPCHA_NOT_READY':
-                token = post('https://2captcha.com/res.php', data=payload, timeout=1).text
+                token = post('https://2captcha.com/res.php', data=payload, timeout=5).text
 
             return token.split('|')[1]
         else:
