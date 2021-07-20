@@ -38,19 +38,15 @@ class Creator:
             print(dumps(response))
             print(dumps({'username': username, 'password': password, 'email': email}))
 
-            write = f'{username}:{password}\n'
-            if path.exists('accounts.txt'):
-                with open('accounts.txt', 'a', encoding='UTF-8') as file:
-                    file.write(write)
-            else:
-                with open('accounts.txt', 'w', encoding='UTF-8') as file:
-                    file.write(write)
+            mode = 'a' if path.exists('accounts.txt') else 'w'
+            with open('accounts.txt', mode, encoding='UTF-8') as file:
+                file.write(f'{username}:{password}\n')
         else:
-            print(f'Passing not enough balance! Your balance: {self.captcha.balance()}')
+            print(f'Passing, not enough balance! Your balance: {self.captcha.balance()}')
 
     def run(self, count: int = 1):
         if count <= 0:
-            raise ValueError
+            raise ValueError('Count must be greater than 0.')
         elif count == 1:
             self.create()
         else:
@@ -63,4 +59,4 @@ class Creator:
 
 if __name__ == '__main__':
     captcha_api_key = 'API_KEY'
-    Creator(captcha_api_key).run(50)
+    Creator(captcha_api_key).run()
