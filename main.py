@@ -22,29 +22,30 @@ class Creator:
         if self.captcha.balance() <= 0:
             raise OutOfBalance(self.captcha.balance())
 
-        body = {
-            'username': (username := data(16)),
-            'password': (password := data(16)),
-            'confirm_password': password,
-            'date_of_birth': '2000-01-01',
-            'email': (email := f'{username[::-1]}@randwoboo.com'),
-            'tou_agree': True,
-            'newsletter': False,
-            'region': 'TR1',
-            'campaign': 'league_of_legends',
-            'locale': 'tr',
-            'token': f'hcaptcha {(self.captcha.solve())}',
-        }
-        response = post(self.api_url, dumps(body), headers={'Content-Type': 'application/json'})
+        hcaptcha_token = self.captcha.solve()
+        if hcaptcha_token:
+            body = {
+                'username': (username := data(16)),
+                'password': (password := data(16)),
+                'confirm_password': password,
+                'date_of_birth': '2000-01-01',
+                'email': (email := f'{username[::-1]}@randwoboo.com'),
+                'tou_agree': True,
+                'newsletter': False,
+                'region': 'TR1',
+                'campaign': 'league_of_legends',
+                'locale': 'tr',
+                'token': f'hcaptcha {hcaptcha_token}',
+            }
+            response = post(self.api_url, dumps(body), headers={'Content-Type': 'application/json'})
 
-        print(response.json())
-        print(dumps({'username': username, 'password': password, 'email': email}))
+            print(response.json())
+            print(dumps({'username': username, 'password': password, 'email': email}))
 
 
 if __name__ == '__main__':
     captcha_api_key = 'API_KEY'
-    max_count = Creator(captcha_api_key).captcha.balance() // 0.00299
-    threads = [Thread(target=Creator(captcha_api_key).create, daemon=True) for _ in range(int(max_count))]
+    threads = [Thread(target=Creator(captcha_api_key).create, daemon=True) for _ in range(int(5))]
 
     for th in threads:
         th.start()

@@ -22,7 +22,7 @@ class TwoCaptcha:
             try:
                 captcha_id = post('https://2captcha.com/in.php', body).text.split('|')[1]
             except IndexError:
-                raise OutOfBalance(self.balance())
+                return None
 
             body = {
                 'key': self.api_key,
