@@ -16,7 +16,7 @@
 - Spends 0.00299 balance for every solve (according to 2Captcha statistics).
 
 ## Note
-- This could be considered python version of https://github.com/lociero/League-of-Legends-Accounts-Creator.
+- This could be considered as python version of https://github.com/lociero/League-of-Legends-Accounts-Creator.
 
 ## Contact
 - Discord: aaaaaadd#9362
