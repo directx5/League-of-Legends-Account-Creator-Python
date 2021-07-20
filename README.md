@@ -11,6 +11,7 @@
 - Only TR server supported.
 - Not sure about time out for solving captcha.
 - If your internet connection is bad, it may cause your balance to go to waste.
+- No proxy support.
 
 ## Additional Information
 - Spends 0.00299 balance for every solve (according to 2Captcha statistics).
