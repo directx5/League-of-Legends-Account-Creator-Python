@@ -12,7 +12,7 @@
 - Not sure about [time out](https://github.com/directx5/League-of-Legends-Account-Creator-Python/blob/ed8ff13a15fb893c7df3a319fc3fc121e24e34eb/captcha.py#L35) for solving captcha. 
 
 ## Additional Information
-- Spends 0.00299 balance for every solve.
+- Spends 0.00299 balance for every solve (according to 2Captcha statistics).
 
 
 ## Contact
