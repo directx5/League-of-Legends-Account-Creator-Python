@@ -2,7 +2,7 @@ from requests import post
 
 
 class TwoCaptcha:
-    def __init__(self, api_key):
+    def __init__(self, api_key: str):
         self.api_key = api_key
 
     def balance(self):
@@ -17,7 +17,10 @@ class TwoCaptcha:
                 'pageurl': 'https://signup.tr.leagueoflegends.com/tr/signup/index',
                 'soft_id': 2622,
             }
-            captcha_id = post('https://2captcha.com/in.php', body).text.split('|')[1]
+            try:
+                captcha_id = post('https://2captcha.com/in.php', body).text.split('|')[1]
+            except IndexError:
+                raise ValueError('Balance ran out!')
 
             body = {
                 'key': self.api_key,
@@ -29,7 +32,7 @@ class TwoCaptcha:
             token = post('https://2captcha.com/res.php', body).text
 
             while token == 'CAPCHA_NOT_READY':
-                token = post('https://2captcha.com/res.php', body, timeout=1).text
+                token = post('https://2captcha.com/res.php', body, timeout=5).text
 
             return token if (r := token.split('|')[1]) is None else r
         else:

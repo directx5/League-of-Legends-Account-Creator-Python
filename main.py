@@ -1,3 +1,4 @@
+import select
 from json import dumps
 from random import choices
 from string import ascii_letters, digits
@@ -26,7 +27,7 @@ class Creator:
             'password': (password := data(16)),
             'confirm_password': password,
             'date_of_birth': '2000-01-01',
-            'email': (email := f'{username}@randwoboo.com'),
+            'email': (email := f'{username[::-1]}@randwoboo.com'),
             'tou_agree': True,
             'newsletter': False,
             'region': 'TR1',
@@ -34,13 +35,16 @@ class Creator:
             'locale': 'tr',
             'token': f'hcaptcha {(self.captcha.solve())}',
         }
-        post(self.api_url, dumps(body))
+        response = post(self.api_url, dumps(body), headers={'Content-Type': 'application/json'})
 
+        print(response.json())
         print(dumps({'username': username, 'password': password, 'email': email}))
 
 
 if __name__ == '__main__':
-    threads = [Thread(target=Creator('API_KEY').create, daemon=True) for _ in range(2)]
+    api_key = 'API_KEY'
+    max_count = Creator(api_key).captcha.balance() // 0.00299
+    threads = [Thread(target=Creator(api_key).create, daemon=True) for _ in range(max_count)]
 
     for th in threads:
         th.start()
