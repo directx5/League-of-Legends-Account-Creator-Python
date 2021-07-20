@@ -9,7 +9,8 @@
 ## Cons
 - Only 2Captcha supported.
 - Only TR server supported.
-- Not sure about [time out](https://github.com/directx5/League-of-Legends-Account-Creator-Python/blob/main/captcha.py#L37) for solving captcha. 
+- Not sure about [time out](https://github.com/directx5/League-of-Legends-Account-Creator-Python/blob/main/captcha.py#L37) for solving captcha.
+- If your internet connection is bad, it may cause your balance to go to waste.
 
 ## Additional Information
 - Spends 0.00299 balance for every solve (according to 2Captcha statistics).
