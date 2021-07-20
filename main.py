@@ -12,9 +12,8 @@ from exceptions import OutOfBalance
 
 class Creator:
     def __init__(self, api_key: str):
-        self.api_key = api_key
         self.api_url = 'https://signup-api.leagueoflegends.com/v1/accounts'
-        self.captcha = TwoCaptcha(self.api_key)
+        self.captcha = TwoCaptcha(api_key)
 
     async def create(self):
         def data(length: int):
