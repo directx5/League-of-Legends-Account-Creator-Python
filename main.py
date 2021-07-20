@@ -1,4 +1,5 @@
 from json import dumps
+from os import path
 from random import choices
 from string import ascii_letters, digits
 from threading import Thread
@@ -41,6 +42,14 @@ class Creator:
 
             print(response.json())
             print(dumps({'username': username, 'password': password, 'email': email}))
+
+            combo = f'{username}:{password}'
+            if path.exists('last.txt'):
+                with open('last.txt', 'a', encoding='UTF-8') as file:
+                    file.write(f'{combo}\n')
+            else:
+                with open('last.txt', 'w', encoding='UTF-8') as file:
+                    file.write(f'{combo}\n')
 
 
 if __name__ == '__main__':
