@@ -1,4 +1,6 @@
-from requests import post
+from asyncio import sleep
+
+from aiohttp import ClientSession
 
 from exceptions import OutOfBalance
 
@@ -7,35 +9,43 @@ class TwoCaptcha:
     def __init__(self, api_key: str):
         self.api_key = api_key
 
-    def balance(self):
-        return float(post('https://2captcha.com/res.php', {'key': self.api_key, 'action': 'getbalance'}).text)
+    async def balance(self):
+        async with ClientSession() as s:
+            async with s.post('https://2captcha.com/res.php', data={'key': self.api_key, 'action': 'getbalance'}) as r:
+                return float((await r.read()).decode('UTF-8'))
 
-    def solve(self):
-        if self.balance() > 0:
-            body = {
+    async def solve(self):
+        if await self.balance() > 0:
+            payload = {
                 'key': self.api_key,
                 'method': 'hcaptcha',
                 'sitekey': 'a010c060-9eb5-498c-a7b9-9204c881f9dc',
                 'pageurl': 'https://signup.tr.leagueoflegends.com/tr/signup/index',
-                'soft_id': 2622,
+                'soft_id': 2622
             }
-            try:
-                captcha_id = post('https://2captcha.com/in.php', body).text.split('|')[1]
-            except IndexError:
-                return None
+            async with ClientSession() as s:
+                async with s.post('http://2captcha.com/in.php', data=payload) as r:
+                    try:
+                        captcha_id = (await r.read()).decode('UTF-8').split('|')[1]
+                    except IndexError:
+                        return None
 
-            body = {
+            payload = {
                 'key': self.api_key,
                 'method': 'hcaptcha',
                 'action': 'get',
                 'id': captcha_id,
                 'soft_id': 2622,
             }
-            token = post('https://2captcha.com/res.php', body).text
+            async with ClientSession() as s:
+                async with s.post('http://2captcha.com/res.php', data=payload) as r:
+                    token = (await r.read()).decode('UTF-8')
 
-            while token == 'CAPCHA_NOT_READY':
-                token = post('https://2captcha.com/res.php', body, timeout=5).text
+                while token == 'CAPCHA_NOT_READY':
+                    await sleep(5)
+                    async with s.post('http://2captcha.com/res.php', data=payload) as r:
+                        token = (await r.read()).decode('UTF-8')
 
-            return token if (r := token.split('|')[1]) is None else r
+            return token.split('|')[1]
         else:
-            raise OutOfBalance(self.balance())
+            raise OutOfBalance
