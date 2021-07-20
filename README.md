@@ -1,7 +1,7 @@
 # League of Legends Account Creator Python
 
 ## Using
-1. `pip install requests`
+1. `pip install aiohttp`
 2. Change `API_KEY` in main.py with your 2Captcha API key.
 3. Set the number of threads you want.
 4. Run main.py.
