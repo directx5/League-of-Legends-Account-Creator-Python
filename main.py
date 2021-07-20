@@ -1,11 +1,11 @@
 from json import dumps
-from string import ascii_letters, digits
 from random import choices
+from string import ascii_letters, digits
 from threading import Thread
 
-from captcha import TwoCaptcha
-
 from requests import post
+
+from captcha import TwoCaptcha
 
 
 class Creator:
@@ -21,7 +21,7 @@ class Creator:
         if self.captcha.balance() <= 0:
             raise ValueError(f'Not enough balance! Balance: {self.captcha.balance()}. Balance must be greater than 0.')
 
-        request_body = {
+        body = {
             'username': (username := data(16)),
             'password': (password := data(16)),
             'confirm_password': password,
@@ -32,16 +32,15 @@ class Creator:
             'region': 'TR1',
             'campaign': 'league_of_legends',
             'locale': 'tr',
-            'token': f'hcaptcha {(self.captcha.solve()[0])}',
+            'token': f'hcaptcha {(self.captcha.solve())}',
         }
-        post(self.api_url, dumps(request_body))
+        post(self.api_url, dumps(body))
 
-        return dumps({'username': username, 'password': password, 'email': email})
+        print(dumps({'username': username, 'password': password, 'email': email}))
 
 
 if __name__ == '__main__':
-    creator = Creator('API_KEY')
-    threads = [Thread(target=creator.create, daemon=True) for _ in range(10)]
+    threads = [Thread(target=Creator('API_KEY').create, daemon=True) for _ in range(2)]
 
     for th in threads:
         th.start()
