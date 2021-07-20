@@ -53,8 +53,8 @@ class Creator:
 
 
 if __name__ == '__main__':
-    captcha_api_key = 'API_KEY'
-    threads = [Thread(target=Creator(captcha_api_key).create, daemon=True) for _ in range(int(5))]
+    captcha_api_key, thread_count = 'API_KEY', 10
+    threads = [Thread(target=Creator(captcha_api_key).create, daemon=True) for _ in range(thread_count)]
 
     for th in threads:
         th.start()
