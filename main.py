@@ -17,10 +17,7 @@ class Creator:
 
     async def create(self):
         def data(length: int):
-            result = ''.join(choices(ascii_letters + digits, k=length))
-            while not any(x.isdigit() for x in result) or any(not x.isdigit() for x in result):
-                result = data(length)
-            return result
+            return ''.join(choices(ascii_letters, k=length // 2)) + ''.join(choices(digits, k=length // 2))
 
         if await self.captcha.balance() <= 0:
             raise NotEnoughBalance(await self.captcha.balance())
@@ -55,7 +52,10 @@ class Creator:
                 with open('accounts.txt', 'w', encoding='UTF-8') as file:
                     file.write(f'{combo}\n')
 
+    def run(self):
+        get_event_loop().run_until_complete(self.create())
+
 
 if __name__ == '__main__':
     creator = Creator('API_KEY')
-    get_event_loop().run_until_complete(creator.create())
+    creator.run()
