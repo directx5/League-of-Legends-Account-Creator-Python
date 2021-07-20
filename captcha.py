@@ -48,4 +48,4 @@ class TwoCaptcha:
 
             return token.split('|')[1]
         else:
-            raise OutOfBalance
+            raise OutOfBalance(await self.balance())
