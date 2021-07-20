@@ -1,4 +1,3 @@
-import select
 from json import dumps
 from random import choices
 from string import ascii_letters, digits
@@ -7,6 +6,7 @@ from threading import Thread
 from requests import post
 
 from captcha import TwoCaptcha
+from exceptions import OutOfBalance
 
 
 class Creator:
@@ -20,7 +20,7 @@ class Creator:
             return ''.join(choices(ascii_letters + digits, k=length))
 
         if self.captcha.balance() <= 0:
-            raise ValueError(f'Not enough balance! Balance: {self.captcha.balance()}. Balance must be greater than 0.')
+            raise OutOfBalance(self.captcha.balance())
 
         body = {
             'username': (username := data(16)),

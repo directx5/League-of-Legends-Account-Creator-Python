@@ -1,5 +1,7 @@
 from requests import post
 
+from exceptions import OutOfBalance
+
 
 class TwoCaptcha:
     def __init__(self, api_key: str):
@@ -20,7 +22,7 @@ class TwoCaptcha:
             try:
                 captcha_id = post('https://2captcha.com/in.php', body).text.split('|')[1]
             except IndexError:
-                raise ValueError(f'Not enough balance! Balance: {self.balance()}. Balance must be greater than 0.')
+                raise OutOfBalance(self.balance())
 
             body = {
                 'key': self.api_key,
@@ -36,4 +38,4 @@ class TwoCaptcha:
 
             return token if (r := token.split('|')[1]) is None else r
         else:
-            raise ValueError(f'Not enough balance! Balance: {self.balance()}. Balance must be greater than 0.')
+            raise OutOfBalance(self.balance())
