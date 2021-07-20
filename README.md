@@ -13,3 +13,7 @@
 
 ## Additional Information
 - Spends 0.00299 balance for every solve.
+
+
+## Contact
+- Discord: aaaaaadd#9362
