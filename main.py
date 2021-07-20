@@ -33,9 +33,9 @@ class Creator:
                 'locale': 'tr',
                 'token': f'hcaptcha {token}',
             }
-            response = post(self.api_url, data=dumps(body), headers={'Content-Type': 'application/json'}).json()
+            response = post(self.api_url, dumps(body), headers={'Content-Type': 'application/json'}, timeout=(.1, 5))
 
-            print(dumps(response))
+            print(dumps(response.json()))
             print(dumps({'username': username, 'password': password, 'email': email}))
 
             mode = 'a' if path.exists('accounts.txt') else 'w'
