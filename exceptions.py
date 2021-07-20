@@ -1,4 +1,4 @@
-class OutOfBalance(Exception):
+class NotEnoughBalance(Exception):
     def __init__(self, current_balance: float, message: str = 'Not enough balance!'):
         self.current_balance = current_balance
         self.message = message

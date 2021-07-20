@@ -7,7 +7,7 @@ from string import ascii_letters, digits
 from aiohttp import ClientSession
 
 from captcha import TwoCaptcha
-from exceptions import OutOfBalance
+from exceptions import NotEnoughBalance
 
 
 class Creator:
@@ -23,7 +23,7 @@ class Creator:
             return result
 
         if await self.captcha.balance() <= 0:
-            raise OutOfBalance(await self.captcha.balance())
+            raise NotEnoughBalance(await self.captcha.balance())
 
         token = await self.captcha.solve()
         if token:

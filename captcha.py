@@ -2,7 +2,7 @@ from asyncio import sleep
 
 from aiohttp import ClientSession
 
-from exceptions import OutOfBalance
+from exceptions import NotEnoughBalance
 
 
 class TwoCaptcha:
@@ -48,4 +48,4 @@ class TwoCaptcha:
 
             return token.split('|')[1]
         else:
-            raise OutOfBalance(await self.balance())
+            raise NotEnoughBalance(await self.balance())
