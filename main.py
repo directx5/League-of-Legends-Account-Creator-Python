@@ -42,9 +42,9 @@ class Creator:
 
 
 if __name__ == '__main__':
-    api_key = 'API_KEY'
-    max_count = Creator(api_key).captcha.balance() // 0.00299
-    threads = [Thread(target=Creator(api_key).create, daemon=True) for _ in range(int(max_count))]
+    captcha_api_key = 'API_KEY'
+    max_count = Creator(captcha_api_key).captcha.balance() // 0.00299
+    threads = [Thread(target=Creator(captcha_api_key).create, daemon=True) for _ in range(int(max_count))]
 
     for th in threads:
         th.start()

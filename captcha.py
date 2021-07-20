@@ -20,7 +20,7 @@ class TwoCaptcha:
             try:
                 captcha_id = post('https://2captcha.com/in.php', body).text.split('|')[1]
             except IndexError:
-                raise ValueError('Balance ran out!')
+                raise ValueError(f'Not enough balance! Balance: {self.balance()}. Balance must be greater than 0.')
 
             body = {
                 'key': self.api_key,
@@ -36,4 +36,4 @@ class TwoCaptcha:
 
             return token if (r := token.split('|')[1]) is None else r
         else:
-            raise ValueError(f'Balance ran out!')
+            raise ValueError(f'Not enough balance! Balance: {self.balance()}. Balance must be greater than 0.')
