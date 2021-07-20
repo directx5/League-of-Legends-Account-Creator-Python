@@ -12,7 +12,7 @@
 - Not sure about time out for solving captcha.
 - If your internet connection is bad, it may cause your balance to go to waste.
 - No proxy support.
-- 8(?) seconds per account.
+- 22(?) seconds per account.
 
 ## Additional Information
 - Spends 0.00299 balance for every solve (according to 2Captcha statistics).
