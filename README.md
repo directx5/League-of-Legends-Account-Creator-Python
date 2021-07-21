@@ -1,7 +1,7 @@
 # League of Legends Account Creator Python
 
 ## Using
-1. `pip install requests`
+1. `pip install requests` and `pip install 2captcha-python`
 2. Change `API_KEY` in main.py with your 2Captcha API key.
 3. Set the number of threads you want.
 4. Run main.py.
@@ -12,7 +12,7 @@
 - Not sure about time out for solving captcha.
 - If your internet connection is bad, it may cause your balance to go to waste.
 - No proxy support.
-- 16(?) seconds per account.
+- 10-25(?) seconds per account.
 
 ## Additional Information
 - Spends 0.00299 balance for every solve (according to 2Captcha statistics).
