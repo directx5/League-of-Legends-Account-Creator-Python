@@ -6,7 +6,7 @@ from threading import Thread
 
 from requests import post
 
-from captchas import TwoCaptcha
+from captcha import TwoCaptcha
 
 
 class Creator:
