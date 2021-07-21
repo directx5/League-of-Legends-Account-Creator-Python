@@ -1,4 +1,4 @@
-from twocaptcha import api, TwoCaptcha as TCaptcha
+from twocaptcha import api, TwoCaptcha as Captcha
 
 
 class TwoCaptcha:
@@ -10,7 +10,7 @@ class TwoCaptcha:
             'defaultTimeout': 60,
             'pollingInterval': 5,
         }
-        self.__solver = TCaptcha(**config)
+        self.__solver = Captcha(**config)
 
     def balance(self):
         return self.__solver.balance()
