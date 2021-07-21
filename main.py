@@ -6,19 +6,30 @@ from threading import Thread
 
 from requests import post
 
-from captcha import TwoCaptcha
+from twocaptcha import api, TwoCaptcha
 
 
 class Creator:
     def __init__(self, api_key: str):
         self.api_url = 'https://signup-api.leagueoflegends.com/v1/accounts'
-        self.captcha = TwoCaptcha(api_key)
+        config = {
+            'server': '2captcha.com',
+            'apiKey': api_key,
+            'defaultTimeout': 60,
+            'pollingInterval': 5
+        }
+        self.captcha = TwoCaptcha(**config)
 
     def create(self):
         def data(length: int):
             return ''.join(choices(ascii_letters, k=length // 2)) + ''.join(choices(digits, k=length // 2))
 
-        token = self.captcha.solve()
+        try:
+            token = self.captcha.hcaptcha('a010c060-9eb5-498c-a7b9-9204c881f9dc',
+                                          'https://signup.tr.leagueoflegends.com/tr/signup/index')
+        except api.ApiException:
+            token = None
+
         if token:
             body = {
                 'username': (username := data(24)),
@@ -31,9 +42,9 @@ class Creator:
                 'region': 'TR1',
                 'campaign': 'league_of_legends',
                 'locale': 'tr',
-                'token': f'hcaptcha {token}',
+                'token': f'hcaptcha {token["code"]}',
             }
-            response = post(self.api_url, dumps(body), headers={'Content-Type': 'application/json'}, timeout=(.5, 5))
+            response = post(self.api_url, dumps(body), headers={'Content-Type': 'application/json'})
 
             print(dumps(rj := response.json()))
             print(dumps({'username': username, 'password': password, 'email': email}))
