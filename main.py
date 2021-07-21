@@ -6,7 +6,7 @@ from threading import Thread
 
 from requests import post
 
-from captcha import TwoCaptcha
+from captchas import TwoCaptcha
 
 
 class Creator:
@@ -33,14 +33,15 @@ class Creator:
                 'locale': 'tr',
                 'token': f'hcaptcha {token}',
             }
-            response = post(self.api_url, dumps(body), headers={'Content-Type': 'application/json'}, timeout=(.1, 5))
+            response = post(self.api_url, dumps(body), headers={'Content-Type': 'application/json'}, timeout=(.5, 5))
 
-            print(dumps(response.json()))
-            print(dumps({'username': username, 'password': password, 'email': email}))
+            if 'account' in (rj := response.json()).keys():
+                print(dumps(rj))
+                print(dumps({'username': username, 'password': password, 'email': email}))
 
-            mode = 'a' if path.exists('accounts.txt') else 'w'
-            with open('accounts.txt', mode, encoding='UTF-8') as file:
-                file.write(f'{username}:{password}\n')
+                mode = 'a' if path.exists('accounts.txt') else 'w'
+                with open('accounts.txt', mode, encoding='UTF-8') as file:
+                    file.write(f'{username}:{password}\n')
         else:
             print(f'Passing, not enough balance! Your balance: {self.captcha.balance()}')
 
