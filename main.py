@@ -35,10 +35,10 @@ class Creator:
             }
             response = post(self.api_url, dumps(body), headers={'Content-Type': 'application/json'}, timeout=(.5, 5))
 
-            if 'account' in (rj := response.json()).keys():
-                print(dumps(rj))
-                print(dumps({'username': username, 'password': password, 'email': email}))
+            print(dumps(rj := response.json()))
+            print(dumps({'username': username, 'password': password, 'email': email}))
 
+            if 'account' in rj.keys():
                 mode = 'a' if path.exists('accounts.txt') else 'w'
                 with open('accounts.txt', mode, encoding='UTF-8') as file:
                     file.write(f'{username}:{password}\n')
