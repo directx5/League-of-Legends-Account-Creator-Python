@@ -25,8 +25,7 @@ class Creator:
             return ''.join(choices(ascii_letters, k=length // 2)) + ''.join(choices(digits, k=length // 2))
 
         try:
-            token = self.captcha.hcaptcha('a010c060-9eb5-498c-a7b9-9204c881f9dc',
-                                          'https://signup.tr.leagueoflegends.com/tr/signup/index')
+            token = self.captcha.hcaptcha('a010c060-9eb5-498c-a7b9-9204c881f9dc', 'https://signup.tr.leagueoflegends.com/tr/signup/index')
         except api.ApiException:
             token = None
 
