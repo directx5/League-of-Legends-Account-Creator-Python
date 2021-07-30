@@ -19,6 +19,3 @@
 
 ## Note
 - This could be considered as python version of https://github.com/lociero/League-of-Legends-Accounts-Creator.
-
-## Contact
-- Discord: aaaaaadd#9362
